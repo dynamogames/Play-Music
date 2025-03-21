@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        #search {
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .player {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #cover {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 3px solid white;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 5px 0;
+        }
+
+        p {
+            font-size: 14px;
+            margin: 5px 0;
+            opacity: 0.8;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            margin: 5px auto;
+            width: 90%;
+            max-width: 300px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        li:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎵 Music Player</h1>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Buscar música..." onkeyup="searchMusic()">
+        </div>
+        <div class="player">
+            <img id="cover" src="cover.jpg" alt="Capa da Música">
+            <h2 id="title">Selecione uma música</h2>
+            <p id="artist">Artista: --</p>
+            <p id="album">Álbum: --</p>
+            <audio id="audio" controls></audio>
+            <p id="error-message" style="color: red; display: none;">⚠️ Seu navegador não suporta este formato de áudio!</p>
+        </div>
+        <ul id="playlist">
+            <li onclick="playMusic('Musicas/destravei.mp3', 'Destravei', 'imagens/torvi_x_lion.png', 'Lion x Torvi', 'Destravei')">Destravei | torvi x lion</li>
+            <li onclick="playMusic('Musicas/corra.mp3', 'Corra', 'imagens/jotape_x_apollo_bda7.png', 'apollo x jotape', 'CORRA')">Corra | apollo x jotape</li>
+            <li onclick="playMusic('Musicas/mini_game.mp3', 'Mini Game', 'imagens/jotape_x_apollo.png', 'jotape x apolll', 'Mini Game')">Mini Game | jotape x apollo</li>
+            <li onclick="playMusic('Musicas/olha_pra_ca.mp3', 'Olha Pra Cá', 'imagens/jotape_x_neo.png', 'jotape x neo', 'Olha pra Ca')">Olha pra ca | jotape x neo</li>
+        </ul>
+    </div>
+
+    <script>
+        function playMusic(src, title, cover, artist, album) {
+            var audio = document.getElementById("audio");
+            var titleElement = document.getElementById("title");
+            var coverElement = document.getElementById("cover");
+            var artistElement = document.getElementById("artist");
+            var albumElement = document.getElementById("album");
+            var errorMessage = document.getElementById("error-message");
+
+            audio.src = src;
+            audio.play().then(() => {
+                errorMessage.style.display = "none"; // Oculta erro se a música rodar
+            }).catch(() => {
+                errorMessage.style.display = "block"; // Mostra erro se o navegador não suportar
+            });
+
+            titleElement.textContent = title;
+            coverElement.src = cover;
+            artistElement.textContent = "tag: " + artist;
+            albumElement.textContent = "musica: " + album;
+        }
+
+        function searchMusic() {
+            var input = document.getElementById("search").value.toLowerCase();
+            var items = document.querySelectorAll("#playlist li");
+
+            items.forEach(function(item) {
+                if (item.innerText.toLowerCase().includes(input)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
